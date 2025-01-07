@@ -1,9 +1,10 @@
 Name: YOUR NAME HERE
 
-| Date    |  Time  |                                     Update |
-|:--------|:------:|-------------------------------------------:|
-| April 5 | 9-10pm | I tried to write abstract, efficient code. |
-|         |        |                                            |
+| Date  |     Time      |                                                                                                                                                                                                                                                                                                                                             Update |
+|:------|:-------------:|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
+| Jan 6 | 1:05pm-1:35pm |                                  I decided to use a trie (and maybe DFS?) to solve this problem set. I will use the trie to represent the dictionary of valid words, and will iterate using a nested for loop through each cell in the board. I still have to figure out how I will prevent duplicates and check the words against the dictionary. |
+| Jan 6 |  3pm-3:30pm   | I talked with Mr. Blick and decided to use DFS to find the possibel words on the board starting from each cell. I also made the Node class be outside of the Trie class. I have been since working on making methods to add the next possible cells and check for valid cells, and have been thinking on how to approach this problem set further. |
+| Jan 6 |  3:30pm-4pm   |                                                                    I have continued to make edits to my code and work through the while-loop that I'll use to iterate through every letter in the board. I have also finished my first drafts of the supplimentary methods that I mentioned in the last entry. I am now starting to debug my code. |
 
 
 To add a new row to the table, click into a cell and then hit shift-enter.
