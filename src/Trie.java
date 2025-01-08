@@ -33,6 +33,31 @@ public class Trie {
         return current.isWord;
     }
 
+    public boolean isValidPrefix(String word) {
+        // Start by setting the current node to the index of the first character in the root array
+        Node current = root[getLetter(word.charAt(0))];
+        // Substring representing remaining suffix
+        String remainder = word.substring(1);
+        // Iterate through every letter in the word
+        while (!remainder.isEmpty()) {
+            // Set charVal equal to the integer value of the current word's character (a = 97, z = 122)
+            int charVal = getLetter(remainder.charAt(0));
+
+            // If the next letter's index in the Node's kid array is null, word isn't in dictionary, so return false
+            if (current == null || current.kids[charVal] == null) {
+                return false;
+            }
+            else {
+                // Otherwise set the current node to the node of the subsequent letter
+                current = current.kids[charVal];
+            }
+            // Decrement remaining suffix by 1
+            remainder = remainder.substring(1);
+        }
+        // Return true because the prefix is part of a valid word in the trie
+        return true;
+    }
+
 
     // Method to insert new words into the Trie
     public void insert(String word) {
@@ -50,9 +75,13 @@ public class Trie {
             // Decrement remaining suffix by 1
             remainder = remainder.substring(1);
 
-            // If the next letter's index in the Node's kid array is null, word isn't in dictionary, so return false
+            // If the next letter's index in the Node's kid array is null, create a new node to represent the letter
             if (current.kids[charVal] == null) {
                 current.kids[charVal] = new Node(false);
+
+                // Set the parent node of the child node to the current node
+                current.kids[charVal].parent = current;
+
                 // Set current node to the node of the subsequent letter
                 current = current.kids[charVal];
             }
@@ -69,5 +98,29 @@ public class Trie {
     public char getLetter(int asciiVal) {
         return (char)(asciiVal - 97);
     }
+
+    // Method to make a word not valid in the dictionary (in order to prevent duplicates)
+    public void removeWord(String word) {
+        // Start by setting the current node to the index of the first character in the root array
+        if (root[getLetter(word.charAt(0))] == null) {
+            root[getLetter(word.charAt(0))] = new Node(false);
+        }
+        Node current = root[getLetter(word.charAt(0))];
+        // Substring representing remaining suffix
+        String remainder = word.substring(1);
+        // Iterate through every letter in the word to get to the node of the final letter
+        while (!remainder.isEmpty()) {
+            // Set charVal equal to the integer value of the current word's character (a = 97, z = 122)
+            int charVal = getLetter(remainder.charAt(0));
+            // Decrement remaining suffix by 1
+            remainder = remainder.substring(1);
+            // Set the current node to the node of the subsequent letter
+            current = current.kids[charVal];
+        }
+        // Set isWord of the current node to false
+        current.isWord = false;
+    }
+
+
 
 }
