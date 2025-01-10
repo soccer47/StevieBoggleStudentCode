@@ -1,7 +1,21 @@
 // Trie class
 public class Trie {
-    // Array of nodes to represent root of Trie
+    // Array of nodes to represent the root of Trie
     Node[] root = new Node[26];
+
+    // Node class
+    public class Node {
+        // Boolean representing whether node represents last character of a word in the dictionary
+        boolean isWord;
+        // Array of nodes representing possible subsequent letters
+        Node[] kids;
+
+        // Initialize node variables
+        public Node (boolean isInDict) {
+            isWord = isInDict;
+            kids = new Node[26];
+        }
+    }
 
     // Method that returns whether given string is in the Trie or not
     public boolean isInTrie(String word) {
@@ -11,7 +25,7 @@ public class Trie {
         String remainder = word.substring(1);
         // Iterate through every letter in the word
         while (!remainder.isEmpty()) {
-            // Set charVal equal to the integer value of the current word's character (a = 97, z = 122)
+            // Set charVal equal to the integer value of the current word's character (a = 0, z = 25)
             int charVal = getLetter(remainder.charAt(0));
 
             // If the next letter's index in the Node's kid array is null, word isn't in dictionary, so return false
@@ -38,12 +52,12 @@ public class Trie {
         Node current = root[getLetter(word.charAt(0))];
         // Substring representing remaining suffix
         String remainder = word.substring(1);
-        // Iterate through every letter in the word
+        // Iterate through every letter in the prefix
         while (!remainder.isEmpty()) {
-            // Set charVal equal to the integer value of the current word's character (a = 0, z = 25)
+            // Set charVal equal to the integer value of the current prefix's character (a = 0, z = 25)
             int charVal = getLetter(remainder.charAt(0));
 
-            // If the next letter's index in the Node's kid array is null, word isn't in dictionary, so return false
+            // If the next letter's index in the Node's kid array is null, prefix isn't in dictionary, so return false
             if (current == null || current.kids[charVal] == null) {
                 return false;
             }
@@ -54,7 +68,7 @@ public class Trie {
             // Decrement remaining suffix by 1
             remainder = remainder.substring(1);
         }
-        // Return true because the prefix is part of a valid word in the trie
+        // Return true because the prefix is part of a valid word in the trie dictionary
         return true;
     }
 
@@ -78,10 +92,6 @@ public class Trie {
             // If the next letter's index in the Node's kid array is null, create a new node to represent the letter
             if (current.kids[charVal] == null) {
                 current.kids[charVal] = new Node(false);
-
-                // Set the parent node of the child node to the current node
-                current.kids[charVal].parent = current;
-
                 // Set current node to the node of the subsequent letter
                 current = current.kids[charVal];
             }
@@ -92,11 +102,6 @@ public class Trie {
         }
         // Set isWord of the current node to true to represent that word is in dictionary
         current.isWord = true;
-    }
-
-    // Method to get the value of the letter (0-25) from the inputted ascii value
-    public char getLetter(int asciiVal) {
-        return (char)(asciiVal - 97);
     }
 
     // Method to make a word not valid in the dictionary (in order to prevent duplicates)
@@ -110,7 +115,7 @@ public class Trie {
         String remainder = word.substring(1);
         // Iterate through every letter in the word to get to the node of the final letter
         while (!remainder.isEmpty()) {
-            // Set charVal equal to the integer value of the current word's character (a = 97, z = 122)
+            // Set charVal equal to the integer value of the current word's character (a = 0, z = 25)
             int charVal = getLetter(remainder.charAt(0));
             // Decrement remaining suffix by 1
             remainder = remainder.substring(1);
@@ -121,6 +126,8 @@ public class Trie {
         current.isWord = false;
     }
 
-
-
+    // Method to get the value of the letter (0-25) from the inputted ascii value
+    public char getLetter(int asciiVal) {
+        return (char)(asciiVal - 97);
+    }
 }

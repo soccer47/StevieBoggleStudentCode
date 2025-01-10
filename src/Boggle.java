@@ -1,11 +1,9 @@
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.LinkedList;
-import java.util.Stack;
 
 public class Boggle {
 
-    // Make a TST to contain the words in the dictionary
+    // Make a Trie to contain the words in the dictionary
     static Trie dict;
     // 2D array of booleans representing visited squares on board
     static boolean[][] isVisited;
@@ -15,26 +13,24 @@ public class Boggle {
     static ArrayList<String> goodWords;
 
     public static String[] findWords(char[][] board, String[] dictionary) {
-
-        // Set theBoard to board
+        // Set theBoard to the inputted board array
         theBoard = board;
         // Reset and initialize goodWords;
         goodWords = new ArrayList<String>();
-        // Reset and initialize dict
+        // Reset and initialize the Trie representing the dictionary
         dict = new Trie();
         // Add all the words in the dictionary to the trie dict
-        for (int i = 0; i < dictionary.length; i++) {
-            dict.insert(dictionary[i]);
+        for (String s : dictionary) {
+            dict.insert(s);
         }
-        // 2D boolean array that represents characters on board that have been visited
+        // Reset and initialize isVisited to a 2D array of booleans of the same dimensions as the board
         isVisited = new boolean[board.length][board[0].length];
 
         // Call DFS recursively on each cell of the board, starting with the top left cell on the board
         for (int i = 0; i < theBoard.length; i++) {
             for (int j = 0; j < board[0].length; j++) {
-                // String representing current String constructed from board
-                String word = "";
-                DFS(i, j, word);
+                // Call DFS on the current cell, inputting an empty String to start
+                DFS(i, j, "");
             }
         }
 
@@ -46,7 +42,7 @@ public class Boggle {
     }
 
 
-    // Recursive method approach to DFS
+    // Recursive approach to DFS
     public static void DFS (int row, int col, String word) {
         // If the coordinate on the board is valid, add the character of the cell to the word
         if (isValidCell(row, col)) {
@@ -56,15 +52,15 @@ public class Boggle {
         else {
             return;
         }
-        // Return if the current word isn't a valid prefix for any words in the dictionary
+        // Also return if the current word isn't a valid prefix for any words in the dictionary
         if (!dict.isValidPrefix(word)) {
             return;
         }
 
+        // If the word exists in the dictionary, add it to goodWords
         if (dict.isInTrie(word)) {
-            // If the word exists in the dictionary, add it to goodWords
             goodWords.add(word);
-            // Remove the word from the dictionary to prevent duplicates
+            // Remove the word from the dictionary to prevent duplicate additions
             dict.removeWord(word);
         }
 
@@ -75,14 +71,13 @@ public class Boggle {
         DFS(row, col - 1, word);
         DFS(row - 1, col, word);
         DFS(row + 1, col, word);
-
         // Mark the current square as not visited
         isVisited[row][col] = false;
     }
 
     // Method that returns whether the inputted cell is visitable on the board
     public static boolean isValidCell(int x, int y) {
-        // Return false if the coordinates are out of the possible bounds
+        // Return false if the coordinates are out of the possible bounds of the board
         if (x < 0 || x >= theBoard[0].length || y < 0 || y >= theBoard.length) {
             return false;
         }
