@@ -40,7 +40,7 @@ public class Trie {
         String remainder = word.substring(1);
         // Iterate through every letter in the word
         while (!remainder.isEmpty()) {
-            // Set charVal equal to the integer value of the current word's character (a = 97, z = 122)
+            // Set charVal equal to the integer value of the current word's character (a = 0, z = 25)
             int charVal = getLetter(remainder.charAt(0));
 
             // If the next letter's index in the Node's kid array is null, word isn't in dictionary, so return false
@@ -70,7 +70,7 @@ public class Trie {
         String remainder = word.substring(1);
         // Iterate through every letter in the word
         while (!remainder.isEmpty()) {
-            // Set charVal equal to the integer value of the current word's character (a = 97, z = 122)
+            // Set charVal equal to the integer value of the current word's character (a = 0, z = 25)
             int charVal = getLetter(remainder.charAt(0));
             // Decrement remaining suffix by 1
             remainder = remainder.substring(1);

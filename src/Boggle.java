@@ -18,25 +18,25 @@ public class Boggle {
 
         // Set theBoard to board
         theBoard = board;
-
         // Reset and initialize goodWords;
         goodWords = new ArrayList<String>();
-
         // Reset and initialize dict
         dict = new Trie();
         // Add all the words in the dictionary to the trie dict
         for (int i = 0; i < dictionary.length; i++) {
             dict.insert(dictionary[i]);
         }
-
         // 2D boolean array that represents characters on board that have been visited
         isVisited = new boolean[board.length][board[0].length];
 
-        // String representing current String constructed from board
-        String word = "";
-
-        // Call DFS recursively, starting with the top left cell on the board
-        DFS(0, 0, word);
+        // Call DFS recursively on each cell of the board, starting with the top left cell on the board
+        for (int i = 0; i < theBoard.length; i++) {
+            for (int j = 0; j < board[0].length; j++) {
+                // String representing current String constructed from board
+                String word = "";
+                DFS(i, j, word);
+            }
+        }
 
         // Convert the list into a sorted array of strings, then return the array.
         String[] sol = new String[goodWords.size()];
@@ -83,7 +83,7 @@ public class Boggle {
     // Method that returns whether the inputted cell is visitable on the board
     public static boolean isValidCell(int x, int y) {
         // Return false if the coordinates are out of the possible bounds
-        if (x < 0 || x >= isVisited[0].length || y < 0 || y >= isVisited.length) {
+        if (x < 0 || x >= theBoard[0].length || y < 0 || y >= theBoard.length) {
             return false;
         }
         // Also return false if the cell has already been visited, otherwise return true

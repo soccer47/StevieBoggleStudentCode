@@ -4,7 +4,7 @@ public class Node {
     // Boolean representing whether node is last character of a word in the dictionary
     boolean isWord;
     // Array of nodes representing possible subsequent letters
-    Node[] kids = new Node[26];
+    Node[] kids;
     // Integers representing coordinated of character of node on the board
     int x;
     int y;
